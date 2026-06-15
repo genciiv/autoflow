@@ -16,6 +16,7 @@ model Business {
   plan      String   @default("basic")
   parts          Part[]
 stockMovements StockMovement[]
+serviceRecords ServiceRecord[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -48,6 +49,7 @@ model Customer {
   fullName   String
   phone      String
   email      String?
+  serviceRecords ServiceRecord[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -65,6 +67,7 @@ model Vehicle {
   year        Int?
   vin         String?
   mileage     Int?
+  serviceRecords ServiceRecord[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -131,6 +134,7 @@ model Part {
   category   String?
   sku        String?
   movements StockMovement[]
+  serviceRecordParts ServiceRecordPart[]
   stock      Int      @default(0)
   minStock   Int      @default(0)
   buyPrice   Float    @default(0)
@@ -152,4 +156,38 @@ model StockMovement {
 
   part       Part     @relation(fields: [partId], references: [id])
   business   Business @relation(fields: [businessId], references: [id])
+}
+
+model ServiceRecordPart {
+  id              String   @id @default(cuid())
+  serviceRecordId String
+  partId          String
+  quantity        Int
+  unitPrice       Float
+  totalPrice      Float
+  createdAt       DateTime @default(now())
+
+  serviceRecord   ServiceRecord @relation(fields: [serviceRecordId], references: [id])
+  part            Part          @relation(fields: [partId], references: [id])
+}
+
+model ServiceRecord {
+  id          String   @id @default(cuid())
+  businessId  String
+  vehicleId   String
+  customerId  String
+  title       String
+  description String?
+  mileage     Int?
+  status      String   @default("pending")
+  laborCost   Float    @default(0)
+  partsCost   Float    @default(0)
+  totalCost   Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id])
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  customer    Customer @relation(fields: [customerId], references: [id])
+  parts       ServiceRecordPart[]
 }
