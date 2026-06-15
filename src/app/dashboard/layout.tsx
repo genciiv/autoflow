@@ -7,9 +7,14 @@ const navItems = [
     href: "/dashboard",
   },
   {
+  label: "Stafi",
+  href: "/dashboard/staff",
+},
+  {
     label: "Klientët",
     href: "/dashboard/customers",
   },
+  
   {
     label: "Automjetet",
     href: "/dashboard/vehicles",
