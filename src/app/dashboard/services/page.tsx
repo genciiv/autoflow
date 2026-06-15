@@ -26,24 +26,25 @@ export default function ServicesPage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold">
-            Serviset
-          </h1>
+          <h1 className="text-3xl font-bold">Serviset</h1>
 
           <p className="mt-2 text-slate-500">
             Historiku i të gjitha shërbimeve.
           </p>
         </div>
 
-        <button className="rounded-xl bg-slate-950 px-5 py-3 text-white">
+        <Link
+          href="/dashboard/services/new"
+          className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white"
+        >
           Krijo servis
-        </button>
+        </Link>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full">
           <thead>
-            <tr className="border-b">
+            <tr className="border-b border-slate-200">
               <th className="px-6 py-4 text-left">Automjeti</th>
               <th className="px-6 py-4 text-left">Klienti</th>
               <th className="px-6 py-4 text-left">Shërbimi</th>
@@ -55,34 +56,38 @@ export default function ServicesPage() {
 
           <tbody>
             {services.map((service) => (
-              <tr key={service.id} className="border-b">
+              <tr key={service.id} className="border-b border-slate-100">
                 <td className="px-6 py-5">
-                  {service.vehicle}
-                  <div className="text-sm text-slate-500">
+                  <p className="font-medium text-slate-950">
+                    {service.vehicle}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-500">
                     {service.plate}
-                  </div>
+                  </p>
                 </td>
 
-                <td className="px-6 py-5">
+                <td className="px-6 py-5 text-slate-700">
                   {service.customer}
                 </td>
 
-                <td className="px-6 py-5">
+                <td className="px-6 py-5 text-slate-700">
                   {service.service}
                 </td>
 
-                <td className="px-6 py-5">
+                <td className="px-6 py-5 font-semibold text-slate-950">
                   {service.amount}
                 </td>
 
                 <td className="px-6 py-5">
-                  {service.status}
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                    {service.status}
+                  </span>
                 </td>
 
                 <td className="px-6 py-5 text-right">
                   <Link
                     href={`/dashboard/services/${service.id}`}
-                    className="rounded-xl border px-4 py-2"
+                    className="rounded-xl border border-slate-300 px-4 py-2 text-sm"
                   >
                     Shiko
                   </Link>
