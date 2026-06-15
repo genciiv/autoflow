@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PlateSearch } from "@/components/vehicles/plate-search";
 
 const vehicles = [
   {
@@ -49,12 +50,8 @@ export default function VehiclesPage() {
         </button>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-        <input
-          placeholder="Kërko sipas targës, markës ose klientit..."
-          className="w-full rounded-xl border border-slate-300 px-4 py-3"
-        />
-      </div>
+      <PlateSearch />
+
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full">
