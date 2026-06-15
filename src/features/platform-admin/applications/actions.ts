@@ -1,16 +1,22 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { createBusinessOwnerAccount } from "@/services/business-owner.service";
 
 export async function approveBusinessApplication(applicationId: string) {
   const application = await db.businessApplication.findUnique({
-    where: { id: applicationId },
+    where: {
+      id: applicationId,
+    },
   });
 
   if (!application) {
     throw new Error("Aplikimi nuk u gjet.");
+  }
+
+  if (application.status !== "pending") {
+    throw new Error("Ky aplikim është procesuar më parë.");
   }
 
   const business = await db.business.create({
@@ -18,37 +24,41 @@ export async function approveBusinessApplication(applicationId: string) {
       name: application.businessName,
       city: application.city,
       phone: application.phone,
-      email: application.email,
+      email: application.email.toLowerCase(),
       status: "active",
       plan: "basic",
     },
   });
 
-  const temporaryPassword = "AutoFlow123!";
-  const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
-
-  await db.user.create({
-    data: {
-      name: application.ownerName,
-      email: application.email.toLowerCase(),
-      password: hashedPassword,
-      role: "owner",
-      businessId: business.id,
-    },
+  const { temporaryPassword } = await createBusinessOwnerAccount({
+    businessId: business.id,
+    name: application.ownerName,
+    email: application.email,
   });
 
   await db.businessApplication.update({
-    where: { id: applicationId },
-    data: { status: "approved" },
+    where: {
+      id: applicationId,
+    },
+    data: {
+      status: "approved",
+    },
   });
 
+  console.log("Temporary owner password:", temporaryPassword);
+
   revalidatePath("/admin/applications");
+  revalidatePath("/admin/businesses");
 }
 
 export async function rejectBusinessApplication(applicationId: string) {
   await db.businessApplication.update({
-    where: { id: applicationId },
-    data: { status: "rejected" },
+    where: {
+      id: applicationId,
+    },
+    data: {
+      status: "rejected",
+    },
   });
 
   revalidatePath("/admin/applications");
