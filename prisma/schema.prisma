@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Business {
+  id        String   @id @default(cuid())
+  name      String
+  city      String?
+  phone     String?
+  email     String?
+  status    String   @default("pending")
+  plan      String   @default("basic")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  customers Customer[]
+  vehicles  Vehicle[]
+}
+
+model User {
+  id         String   @id @default(cuid())
+  businessId String?
+  name       String
+  email      String   @unique
+  role       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business   Business? @relation(fields: [businessId], references: [id])
+}
+
+model Customer {
+  id         String   @id @default(cuid())
+  businessId String
+  fullName   String
+  phone      String
+  email      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business   Business  @relation(fields: [businessId], references: [id])
+  vehicles   Vehicle[]
+}
+
+model Vehicle {
+  id          String   @id @default(cuid())
+  businessId  String
+  customerId  String
+  plateNumber String
+  brand       String
+  model       String
+  year        Int?
+  vin         String?
+  mileage     Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id])
+  customer    Customer @relation(fields: [customerId], references: [id])
+
+  @@index([plateNumber])
+}
