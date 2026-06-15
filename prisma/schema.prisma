@@ -14,6 +14,8 @@ model Business {
   email     String?
   status    String   @default("pending")
   plan      String   @default("basic")
+  parts          Part[]
+stockMovements StockMovement[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -120,4 +122,34 @@ model BusinessApplication {
   status       String   @default("pending")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Part {
+  id         String   @id @default(cuid())
+  businessId String
+  name       String
+  category   String?
+  sku        String?
+  movements StockMovement[]
+  stock      Int      @default(0)
+  minStock   Int      @default(0)
+  buyPrice   Float    @default(0)
+  sellPrice  Float    @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business   Business @relation(fields: [businessId], references: [id])
+}
+
+model StockMovement {
+  id         String   @id @default(cuid())
+  businessId String
+  partId     String
+  type       String
+  quantity   Int
+  note       String?
+  createdAt  DateTime @default(now())
+
+  part       Part     @relation(fields: [partId], references: [id])
+  business   Business @relation(fields: [businessId], references: [id])
 }
