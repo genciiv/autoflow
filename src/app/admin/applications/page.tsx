@@ -1,6 +1,13 @@
 import { ApplicationsTable } from "@/components/admin/applications-table";
+import { db } from "@/lib/db";
 
-export default function ApplicationsPage() {
+export default async function ApplicationsPage() {
+  const applications = await db.businessApplication.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <div className="space-y-8">
       <div>
@@ -13,7 +20,7 @@ export default function ApplicationsPage() {
         </p>
       </div>
 
-      <ApplicationsTable />
+      <ApplicationsTable applications={applications} />
     </div>
   );
 }

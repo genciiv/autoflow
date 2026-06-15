@@ -1,23 +1,23 @@
-const applications = [
-  {
-    id: "1",
-    business: "Auto Service Fier",
-    owner: "Genci Vaqo",
-    city: "Fier",
-    phone: "+355692291041",
-    status: "Pending",
-  },
-  {
-    id: "2",
-    business: "Auto Plus",
-    owner: "Ardit Hoxha",
-    city: "Tiranë",
-    phone: "+355692222222",
-    status: "Pending",
-  },
-];
+import {
+  approveBusinessApplication,
+  rejectBusinessApplication,
+} from "@/features/platform-admin/applications/actions";
 
-export function ApplicationsTable() {
+type Application = {
+  id: string;
+  businessName: string;
+  ownerName: string;
+  city: string | null;
+  phone: string;
+  email: string;
+  status: string;
+};
+
+export function ApplicationsTable({
+  applications,
+}: {
+  applications: Application[];
+}) {
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full">
@@ -34,26 +34,11 @@ export function ApplicationsTable() {
 
         <tbody>
           {applications.map((application) => (
-            <tr
-              key={application.id}
-              className="border-b border-slate-100"
-            >
-              <td className="px-6 py-5">
-                {application.business}
-              </td>
-
-              <td className="px-6 py-5">
-                {application.owner}
-              </td>
-
-              <td className="px-6 py-5">
-                {application.city}
-              </td>
-
-              <td className="px-6 py-5">
-                {application.phone}
-              </td>
-
+            <tr key={application.id} className="border-b border-slate-100">
+              <td className="px-6 py-5">{application.businessName}</td>
+              <td className="px-6 py-5">{application.ownerName}</td>
+              <td className="px-6 py-5">{application.city}</td>
+              <td className="px-6 py-5">{application.phone}</td>
               <td className="px-6 py-5">
                 <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                   {application.status}
@@ -62,17 +47,17 @@ export function ApplicationsTable() {
 
               <td className="px-6 py-5 text-right">
                 <div className="flex justify-end gap-2">
-                  <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
-                    Aprovo
-                  </button>
+                  <form action={approveBusinessApplication.bind(null, application.id)}>
+                    <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
+                      Aprovo
+                    </button>
+                  </form>
 
-                  <button className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white">
-                    Refuzo
-                  </button>
-
-                  <button className="rounded-xl border border-slate-300 px-4 py-2 text-sm">
-                    Detaje
-                  </button>
+                  <form action={rejectBusinessApplication.bind(null, application.id)}>
+                    <button className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white">
+                      Refuzo
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>
