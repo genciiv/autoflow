@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Business {
+  id        String   @id @default(cuid())
+  name      String
+  city      String?
+  phone     String?
+  email     String?
+  status    String   @default("pending")
+  plan      String   @default("basic")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  customers Customer[]
+  vehicles  Vehicle[]
+}
+
+model User {
+  id         String   @id @default(cuid())
+  businessId String?
+  name       String
+  email      String   @unique
+  role       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  password      String?
+emailVerified DateTime?
+image         String?
+
+accounts      Account[]
+sessions      Session[]
+
+  business   Business? @relation(fields: [businessId], references: [id])
+}
+
+model Customer {
+  id         String   @id @default(cuid())
+  businessId String
+  fullName   String
+  phone      String
+  email      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  business   Business  @relation(fields: [businessId], references: [id])
+  vehicles   Vehicle[]
+}
+
+model Vehicle {
+  id          String   @id @default(cuid())
+  businessId  String
+  customerId  String
+  plateNumber String
+  brand       String
+  model       String
+  year        Int?
+  vin         String?
+  mileage     Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id])
+  customer    Customer @relation(fields: [customerId], references: [id])
+
+  @@index([plateNumber])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model BusinessApplication {
+  id           String   @id @default(cuid())
+  businessName String
+  ownerName    String
+  phone        String
+  email        String
+  city         String?
+  businessType String?
+  message      String?
+  status       String   @default("pending")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
