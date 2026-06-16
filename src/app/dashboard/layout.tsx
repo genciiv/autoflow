@@ -28,6 +28,10 @@ const navItems = [
     href: "/dashboard/invoices",
   },
   {
+  label: "Rezervimet",
+  href: "/dashboard/appointments",
+},
+  {
     label: "Inventari",
     href: "/dashboard/inventory",
   },
