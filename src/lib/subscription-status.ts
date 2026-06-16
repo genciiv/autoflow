@@ -17,7 +17,10 @@ export function getBusinessAccessStatus({
     return "trial";
   }
 
-  if (subscriptionEndsAt && subscriptionEndsAt > new Date()) {
+  if (
+    subscriptionEndsAt &&
+    subscriptionEndsAt > new Date()
+  ) {
     return "active";
   }
 

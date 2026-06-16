@@ -1,56 +1,20 @@
 import Link from "next/link";
 import { requireBusinessUser } from "@/lib/require-auth";
+import { requireActiveSubscription } from "@/lib/subscription-guard";
 
 const navItems = [
-  {
-    label: "Dashboard",
-    href: "/dashboard",
-  },
-  {
-  label: "Stafi",
-  href: "/dashboard/staff",
-},
-  {
-    label: "Klientët",
-    href: "/dashboard/customers",
-  },
-  
-  {
-    label: "Automjetet",
-    href: "/dashboard/vehicles",
-  },
-  {
-    label: "Serviset",
-    href: "/dashboard/services",
-  },
-  {
-    label: "Faturat",
-    href: "/dashboard/invoices",
-  },
-  {
-  label: "Rezervimet",
-  href: "/dashboard/appointments",
-},
-  {
-    label: "Inventari",
-    href: "/dashboard/inventory",
-  },
-  {
-    label: "Raportet",
-    href: "/dashboard/reports",
-  },
-  {
-  label: "Pagesat",
-  href: "/dashboard/payments",
-},
-{
-  label: "Rikujtimet",
-  href: "/dashboard/reminders",
-},
-  {
-    label: "Settings",
-    href: "/dashboard/settings",
-  },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Stafi", href: "/dashboard/staff" },
+  { label: "Klientët", href: "/dashboard/customers" },
+  { label: "Automjetet", href: "/dashboard/vehicles" },
+  { label: "Serviset", href: "/dashboard/services" },
+  { label: "Faturat", href: "/dashboard/invoices" },
+  { label: "Rezervimet", href: "/dashboard/appointments" },
+  { label: "Inventari", href: "/dashboard/inventory" },
+  { label: "Raportet", href: "/dashboard/reports" },
+  { label: "Pagesat", href: "/dashboard/payments" },
+  { label: "Rikujtimet", href: "/dashboard/reminders" },
+  { label: "Settings", href: "/dashboard/settings" },
 ];
 
 export default async function DashboardLayout({
@@ -59,18 +23,14 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   await requireBusinessUser();
+  await requireActiveSubscription();
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <aside className="fixed left-0 top-0 h-screen w-72 border-r border-slate-200 bg-white">
+      <aside className="fixed left-0 top-0 h-screen w-72 overflow-y-auto border-r border-slate-200 bg-white">
         <div className="border-b border-slate-200 p-6">
-          <h2 className="text-xl font-bold text-slate-950">
-            AutoFlow
-          </h2>
-
-          <p className="mt-1 text-sm text-slate-500">
-            Business Dashboard
-          </p>
+          <h2 className="text-xl font-bold text-slate-950">AutoFlow</h2>
+          <p className="mt-1 text-sm text-slate-500">Business Dashboard</p>
         </div>
 
         <nav className="space-y-1 p-4">
@@ -90,10 +50,7 @@ export default async function DashboardLayout({
         <header className="sticky top-0 z-10 border-b border-slate-200 bg-white px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-slate-500">
-                Servisi
-              </p>
-
+              <p className="text-sm text-slate-500">Servisi</p>
               <h1 className="text-xl font-semibold text-slate-950">
                 AutoFlow Business
               </h1>
@@ -105,9 +62,7 @@ export default async function DashboardLayout({
           </div>
         </header>
 
-        <main className="p-8">
-          {children}
-        </main>
+        <main className="p-8">{children}</main>
       </div>
     </div>
   );
