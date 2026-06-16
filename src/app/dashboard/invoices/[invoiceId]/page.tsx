@@ -1,3 +1,5 @@
+import { InvoicePdfButton } from "@/features/invoices/pdf/invoice-pdf-button";
+
 const invoice = {
   number: "INV-0001",
   date: "12.06.2026",
@@ -21,9 +23,7 @@ export default function InvoiceDetailsPage() {
         <button className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold">
           Printo
         </button>
-        <button className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white">
-          Shkarko PDF
-        </button>
+        <InvoicePdfButton />
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-sm">
