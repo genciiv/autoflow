@@ -4,6 +4,7 @@ import { FeaturesSection } from "@/components/landing/features-section";
 import { CTASection } from "@/components/landing/cta-section";
 import { Footer } from "@/components/landing/footer";
 import { MarketingNavbar } from "@/components/marketing/navbar";
+import { WorkflowSection } from "@/components/landing/workflow-section";
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       
       <HeroSection />
       <FeaturesSection />
+      <WorkflowSection />
       <CTASection />
       <Footer />
     </main>
