@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const navItems = [
-  { label: "Features", href: "#features" },
-  { label: "Workflow", href: "#workflow" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Funksionalitetet", href: "#features" },
+  { label: "Si Funksionon", href: "#workflow" },
+  { label: "Çmimet", href: "/pricing" },
+  { label: "Pyetje", href: "#faq" },
 ];
 
 export function MarketingNavbar() {
@@ -24,7 +24,7 @@ export function MarketingNavbar() {
 
             <div>
               <p className="font-bold text-slate-950">AutoFlow</p>
-              <p className="text-xs text-slate-500">Workshop Management</p>
+              <p className="text-xs text-slate-500">Menaxhim Servisi</p>
             </div>
           </Link>
 
@@ -45,7 +45,7 @@ export function MarketingNavbar() {
               href="/auth/login"
               className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
             >
-              Login
+              Hyr
             </Link>
 
             <Link
@@ -60,7 +60,7 @@ export function MarketingNavbar() {
             type="button"
             onClick={() => setIsOpen((value) => !value)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-300 text-slate-700 lg:hidden"
-            aria-label="Toggle menu"
+            aria-label="Hap menunë"
           >
             {isOpen ? "✕" : "☰"}
           </button>
@@ -87,7 +87,7 @@ export function MarketingNavbar() {
                 onClick={() => setIsOpen(false)}
                 className="rounded-xl border border-slate-300 px-4 py-3 text-center text-sm font-medium text-slate-700"
               >
-                Login
+                Hyr
               </Link>
 
               <Link
