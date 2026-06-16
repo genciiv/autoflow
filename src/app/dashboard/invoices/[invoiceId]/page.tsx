@@ -1,4 +1,5 @@
 import { InvoicePdfButton } from "@/features/invoices/pdf/invoice-pdf-button";
+import Link from "next/link";
 
 const invoice = {
   number: "INV-0001",
@@ -20,9 +21,12 @@ export default function InvoiceDetailsPage() {
   return (
     <div className="space-y-8">
       <div className="flex justify-end gap-3">
-        <button className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold">
-          Printo
-        </button>
+        <Link
+  href="/dashboard/invoices/1/print"
+  className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold"
+>
+  Printo
+</Link>
         <InvoicePdfButton />
       </div>
 
