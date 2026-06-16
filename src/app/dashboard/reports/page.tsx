@@ -1,3 +1,6 @@
+import { RevenueAnalytics } from "@/components/reports/revenue-analytics";
+import { ServiceAnalytics } from "@/components/reports/service-analytics";
+
 const stats = [
   {
     label: "Të ardhura mujore",
@@ -73,7 +76,10 @@ export default function ReportsPage() {
 
           <div className="mt-8 flex h-64 items-end gap-4">
             {monthlyRevenue.map((item) => (
-              <div key={item.month} className="flex flex-1 flex-col items-center">
+              <div
+                key={item.month}
+                className="flex flex-1 flex-col items-center"
+              >
                 <div
                   className="w-full rounded-t-xl bg-slate-950"
                   style={{ height: `${item.value}%` }}
@@ -106,9 +112,7 @@ export default function ReportsPage() {
                   </p>
                 </div>
 
-                <p className="font-bold text-slate-950">
-                  {service.revenue}
-                </p>
+                <p className="font-bold text-slate-950">{service.revenue}</p>
               </div>
             ))}
           </div>
@@ -123,7 +127,9 @@ export default function ReportsPage() {
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-slate-200 p-5">
             <p className="text-sm text-slate-500">Të paguara</p>
-            <p className="mt-2 text-2xl font-bold text-emerald-600">€21,400</p>
+            <p className="mt-2 text-2xl font-bold text-emerald-600">
+              €21,400
+            </p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 p-5">
@@ -136,6 +142,11 @@ export default function ReportsPage() {
             <p className="mt-2 text-2xl font-bold text-slate-950">€133</p>
           </div>
         </div>
+      </div>
+
+      <div className="grid gap-8 xl:grid-cols-2">
+        <RevenueAnalytics />
+        <ServiceAnalytics />
       </div>
     </div>
   );
