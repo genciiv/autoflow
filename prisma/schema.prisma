@@ -28,6 +28,8 @@ model Business {
   reminders Reminder[]
   appointments Appointment[]
   auditLogs AuditLog[]
+  trialEndsAt      DateTime?
+subscriptionEndsAt DateTime?
 }
 
 model User {

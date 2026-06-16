@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { createBusinessOwnerAccount } from "@/services/business-owner.service";
+import { getTrialEndDate } from "@/utils/trial";
 
 export async function approveBusinessApplication(applicationId: string) {
   const application = await db.businessApplication.findUnique({
@@ -25,8 +26,10 @@ export async function approveBusinessApplication(applicationId: string) {
       city: application.city,
       phone: application.phone,
       email: application.email.toLowerCase(),
-      status: "active",
+      status: "trial",
       plan: "basic",
+      trialEndsAt: getTrialEndDate(30),
+      subscriptionEndsAt: getTrialEndDate(30),
     },
   });
 
