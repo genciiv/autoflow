@@ -1,3 +1,8 @@
+import {
+  approveAppointmentAction,
+  rejectAppointmentAction,
+} from "@/features/appointments/actions";
+
 const appointments = [
   {
     id: "1",
@@ -28,7 +33,7 @@ export default function AppointmentsPage() {
         </h1>
 
         <p className="mt-2 text-slate-500">
-          Menaxho kërkesat e klientëve për rezervim servisi.
+          Aprovo ose refuzo kërkesat e klientëve për rezervim servisi.
         </p>
       </div>
 
@@ -47,41 +52,71 @@ export default function AppointmentsPage() {
           </thead>
 
           <tbody>
-            {appointments.map((appointment) => (
-              <tr key={appointment.id} className="border-b border-slate-100">
-                <td className="px-6 py-5 font-medium">
-                  {appointment.customer}
-                </td>
+            {appointments.map((appointment) => {
+              const isPending = appointment.status === "pending";
 
-                <td className="px-6 py-5">
-                  {appointment.vehicle}
-                </td>
+              return (
+                <tr key={appointment.id} className="border-b border-slate-100">
+                  <td className="px-6 py-5 font-medium">
+                    {appointment.customer}
+                  </td>
 
-                <td className="px-6 py-5">
-                  {appointment.plate}
-                </td>
+                  <td className="px-6 py-5">{appointment.vehicle}</td>
 
-                <td className="px-6 py-5">
-                  {appointment.title}
-                </td>
+                  <td className="px-6 py-5">{appointment.plate}</td>
 
-                <td className="px-6 py-5">
-                  {appointment.preferredDate}
-                </td>
+                  <td className="px-6 py-5">{appointment.title}</td>
 
-                <td className="px-6 py-5">
-                  <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
-                    {appointment.status}
-                  </span>
-                </td>
+                  <td className="px-6 py-5">{appointment.preferredDate}</td>
 
-                <td className="px-6 py-5 text-right">
-                  <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
-                    Aprovo
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  <td className="px-6 py-5">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                        appointment.status === "approved"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : appointment.status === "rejected"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-amber-100 text-amber-700"
+                      }`}
+                    >
+                      {appointment.status}
+                    </span>
+                  </td>
+
+                  <td className="px-6 py-5 text-right">
+                    {isPending ? (
+                      <div className="flex justify-end gap-2">
+                        <form
+                          action={approveAppointmentAction.bind(
+                            null,
+                            appointment.id
+                          )}
+                        >
+                          <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
+                            Aprovo
+                          </button>
+                        </form>
+
+                        <form
+                          action={rejectAppointmentAction.bind(
+                            null,
+                            appointment.id
+                          )}
+                        >
+                          <button className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white">
+                            Refuzo
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      <span className="text-sm text-slate-400">
+                        Procesuar
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
