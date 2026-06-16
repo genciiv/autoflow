@@ -11,7 +11,7 @@ export function BusinessStats() {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
           <p className="text-sm text-slate-500">{stat.label}</p>
 

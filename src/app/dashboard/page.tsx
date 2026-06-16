@@ -7,7 +7,11 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold text-slate-950">
+        <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
+          Overview
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-950">
           Dashboard i Servisit
         </h2>
 
