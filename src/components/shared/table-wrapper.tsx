@@ -1,0 +1,11 @@
+export function TableWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div className="min-w-225">{children}</div>
+    </div>
+  );
+}

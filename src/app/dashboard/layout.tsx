@@ -27,7 +27,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <aside className="fixed left-0 top-0 h-screen w-72 overflow-y-auto border-r border-slate-200 bg-white/95 backdrop-blur">
+      <aside className="hidden h-screen w-72 overflow-y-auto border-r border-slate-200 bg-white/95 backdrop-blur lg:fixed lg:left-0 lg:top-0 lg:block">
         <div className="border-b border-slate-200 p-6">
           <h2 className="text-xl font-bold text-slate-950">AutoFlow</h2>
           <p className="mt-1 text-sm text-slate-500">Business Dashboard</p>
@@ -46,23 +46,35 @@ export default async function DashboardLayout({
         </nav>
       </aside>
 
-      <div className="ml-72">
-        <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 px-8 py-4 backdrop-blur">
-          <div className="flex items-center justify-between">
+      <div className="lg:ml-72">
+        <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 px-4 py-4 backdrop-blur sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-sm text-slate-500">Servisi</p>
-              <h1 className="text-xl font-semibold text-slate-950">
+              <h1 className="text-lg font-semibold text-slate-950 sm:text-xl">
                 AutoFlow Business
               </h1>
             </div>
 
-            <div className="rounded-full border border-slate-200 px-4 py-2 text-sm">
+            <div className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="hidden rounded-full border border-slate-200 px-4 py-2 text-sm lg:block">
               Owner
             </div>
           </div>
         </header>
 
-        <main className="p-8 lg:p-10">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-10">{children}</main>
       </div>
     </div>
   );
