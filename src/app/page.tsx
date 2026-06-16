@@ -7,12 +7,15 @@ import { MarketingNavbar } from "@/components/marketing/navbar";
 
 export default function HomePage() {
   return (
-    <main>
+    <>
       <MarketingNavbar />
+    <main>
+      
       <HeroSection />
       <FeaturesSection />
       <CTASection />
       <Footer />
     </main>
+    </>
   );
 }
