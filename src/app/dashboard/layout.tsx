@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { requireBusinessUser } from "@/lib/require-auth";
 import { requireActiveSubscription } from "@/lib/subscription-guard";
-
+import { LogoutButton } from "@/components/auth/logout-button";
 const navItems = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Stafi", href: "/dashboard/staff" },
@@ -68,9 +68,13 @@ export default async function DashboardLayout({
               ))}
             </div>
 
-            <div className="hidden rounded-full border border-slate-200 px-4 py-2 text-sm lg:block">
-              Owner
-            </div>
+            <div className="hidden items-center gap-3 lg:flex">
+  <div className="rounded-full border border-slate-200 px-4 py-2 text-sm">
+    Owner
+  </div>
+
+  <LogoutButton />
+</div>
           </div>
         </header>
 

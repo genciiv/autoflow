@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requirePlatformAdmin } from "@/lib/require-auth";
-
+import { LogoutButton } from "@/components/auth/logout-button";
 const navItems = [
   { label: "Dashboard", href: "/admin" },
   { label: "Bizneset", href: "/admin/businesses" },
@@ -27,6 +27,7 @@ export default async function AdminLayout({
           <p className="text-xl font-bold text-slate-950">AutoFlow</p>
           <p className="mt-1 text-sm text-slate-500">Platform Admin</p>
         </div>
+        <LogoutButton />
 
         <nav className="space-y-1 p-4">
           {navItems.map((item) => (
