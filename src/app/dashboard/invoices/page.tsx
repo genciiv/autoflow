@@ -26,11 +26,21 @@ export default function InvoicesPage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-950">Faturat</h1>
+          <h1 className="text-3xl font-bold text-slate-950">
+            Faturat
+          </h1>
+
           <p className="mt-2 text-slate-500">
             Menaxho faturat e krijuara nga serviset.
           </p>
         </div>
+
+        <Link
+          href="/dashboard/invoices/unpaid"
+          className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold"
+        >
+          Fatura të papaguara
+        </Link>
       </div>
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
@@ -48,16 +58,38 @@ export default function InvoicesPage() {
 
           <tbody>
             {invoices.map((invoice) => (
-              <tr key={invoice.id} className="border-b border-slate-100">
-                <td className="px-6 py-5 font-medium">{invoice.number}</td>
-                <td className="px-6 py-5">{invoice.customer}</td>
-                <td className="px-6 py-5">{invoice.vehicle}</td>
-                <td className="px-6 py-5 font-semibold">{invoice.total}</td>
+              <tr
+                key={invoice.id}
+                className="border-b border-slate-100"
+              >
+                <td className="px-6 py-5 font-medium">
+                  {invoice.number}
+                </td>
+
                 <td className="px-6 py-5">
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                  {invoice.customer}
+                </td>
+
+                <td className="px-6 py-5">
+                  {invoice.vehicle}
+                </td>
+
+                <td className="px-6 py-5 font-semibold">
+                  {invoice.total}
+                </td>
+
+                <td className="px-6 py-5">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      invoice.status === "paid"
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
                     {invoice.status}
                   </span>
                 </td>
+
                 <td className="px-6 py-5 text-right">
                   <Link
                     href={`/dashboard/invoices/${invoice.id}`}
