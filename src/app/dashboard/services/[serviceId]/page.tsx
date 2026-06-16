@@ -1,4 +1,5 @@
 import { ServiceStatusSelector } from "@/components/services/service-status-selector";
+import { generateInvoiceAction } from "@/features/invoices/actions";
 
 const statusSteps = [
   "Draft",
@@ -40,7 +41,17 @@ export default function ServiceDetailsPage() {
   return (
     <div className="space-y-8">
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="text-3xl font-bold text-slate-950">Servisi</h1>
+        <div className="flex items-start justify-between">
+          <h1 className="text-3xl font-bold text-slate-950">
+            Servisi
+          </h1>
+
+          <form action={generateInvoiceAction.bind(null, "1")}>
+            <button className="rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white">
+              Gjenero faturë
+            </button>
+          </form>
+        </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-4">
           <div>
@@ -100,6 +111,7 @@ export default function ServiceDetailsPage() {
               className="flex justify-between rounded-2xl border border-slate-200 p-4"
             >
               <span>{part.name}</span>
+
               <span>
                 {part.qty} × {part.price}
               </span>
@@ -110,8 +122,13 @@ export default function ServiceDetailsPage() {
 
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <div className="flex justify-between">
-          <span className="text-lg font-medium">Totali</span>
-          <span className="text-2xl font-bold">{service.total}</span>
+          <span className="text-lg font-medium">
+            Totali
+          </span>
+
+          <span className="text-2xl font-bold">
+            {service.total}
+          </span>
         </div>
       </div>
     </div>
