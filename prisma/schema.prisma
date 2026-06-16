@@ -25,6 +25,7 @@ model Business {
   serviceRecords ServiceRecord[]
   invoices       Invoice[]
   payments Payment[]
+  reminders Reminder[]
 }
 
 model User {
@@ -56,6 +57,7 @@ model Customer {
   business       Business        @relation(fields: [businessId], references: [id])
   vehicles       Vehicle[]
   serviceRecords ServiceRecord[]
+  reminders Reminder[]
 }
 
 model Vehicle {
@@ -74,6 +76,7 @@ model Vehicle {
   business       Business        @relation(fields: [businessId], references: [id])
   customer       Customer        @relation(fields: [customerId], references: [id])
   serviceRecords ServiceRecord[]
+  reminders Reminder[]
 
   @@index([plateNumber])
 }
@@ -225,4 +228,23 @@ model Payment {
 
   business Business @relation(fields: [businessId], references: [id])
   invoice  Invoice  @relation(fields: [invoiceId], references: [id])
+}
+
+
+model Reminder {
+  id          String   @id @default(cuid())
+  businessId  String
+  customerId  String
+  vehicleId   String
+  title       String
+  type        String
+  dueDate     DateTime
+  status      String   @default("pending")
+  note        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+  vehicle  Vehicle  @relation(fields: [vehicleId], references: [id])
 }
