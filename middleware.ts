@@ -18,6 +18,7 @@ export default auth((req: AuthenticatedRequest) => {
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
   const isDashboardRoute = nextUrl.pathname.startsWith("/dashboard");
   const isClientRoute = nextUrl.pathname.startsWith("/client");
+  const isClientLoginRoute = nextUrl.pathname.startsWith("/client/login");
 
   if (isAuthRoute && isLoggedIn) {
     const role = req.auth?.user?.role;
@@ -33,15 +34,42 @@ export default auth((req: AuthenticatedRequest) => {
     return NextResponse.redirect(new URL("/dashboard", nextUrl));
   }
 
-  if (!isLoggedIn && (isAdminRoute || isDashboardRoute || isClientRoute)) {
+  if (isClientLoginRoute && isLoggedIn) {
+    const role = req.auth?.user?.role;
+
+    if (role === "client") {
+      return NextResponse.redirect(new URL("/client", nextUrl));
+    }
+
+    if (role === "platform_admin") {
+      return NextResponse.redirect(new URL("/admin", nextUrl));
+    }
+
+    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+  }
+
+  if (!isLoggedIn && (isAdminRoute || isDashboardRoute)) {
     return NextResponse.redirect(new URL("/auth/login", nextUrl));
+  }
+
+  if (!isLoggedIn && isClientRoute && !isClientLoginRoute) {
+    return NextResponse.redirect(new URL("/client/login", nextUrl));
   }
 
   if (isAdminRoute && req.auth?.user?.role !== "platform_admin") {
     return NextResponse.redirect(new URL("/dashboard", nextUrl));
   }
 
-  if (isClientRoute && req.auth?.user?.role !== "client") {
+  if (
+    isDashboardRoute &&
+    !["owner", "manager", "mechanic", "receptionist"].includes(
+      req.auth?.user?.role || ""
+    )
+  ) {
+    return NextResponse.redirect(new URL("/auth/login", nextUrl));
+  }
+
+  if (isClientRoute && !isClientLoginRoute && req.auth?.user?.role !== "client") {
     return NextResponse.redirect(new URL("/dashboard", nextUrl));
   }
 
@@ -49,5 +77,10 @@ export default auth((req: AuthenticatedRequest) => {
 });
 
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard/:path*", "/client/:path*", "/auth/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/dashboard/:path*",
+    "/client/:path*",
+    "/auth/:path*",
+  ],
 };
