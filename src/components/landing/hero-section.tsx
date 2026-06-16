@@ -72,8 +72,8 @@ export function HeroSection() {
         <div className="relative">
           <div className="absolute -inset-6 rounded-[2.5rem] bg-indigo-200/40 blur-3xl" />
 
-          <div className="relative rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl">
-            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50">
+          <div className="relative rounded-4xl border border-slate-200 bg-white p-4 shadow-2xl">
+            <div className="rounded-3xl border border-slate-200 bg-slate-50">
               <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
                 <div>
                   <p className="text-sm text-slate-500">AutoFlow Dashboard</p>
