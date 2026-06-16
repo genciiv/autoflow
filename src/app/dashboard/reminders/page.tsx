@@ -1,3 +1,5 @@
+import { WhatsAppMessageCard } from "@/components/reminders/whatsapp-message-card";
+
 const reminders = [
   {
     id: "1",
@@ -34,6 +36,8 @@ export default function RemindersPage() {
           Shto rikujtim
         </button>
       </div>
+
+      <WhatsAppMessageCard />
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full">
