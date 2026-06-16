@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BusinessSettingsPage() {
   return (
     <div className="space-y-8">
@@ -10,6 +12,13 @@ export default function BusinessSettingsPage() {
           Menaxho të dhënat e servisit, faturimin dhe konfigurimet bazë.
         </p>
       </div>
+
+      <Link
+  href="/dashboard/settings/invoice"
+  className="inline-flex rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold"
+>
+  Branding i faturave
+</Link>
 
       <form className="space-y-8">
         <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
