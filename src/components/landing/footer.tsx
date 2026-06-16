@@ -94,9 +94,12 @@ export function Footer() {
             <Link href="#" className="hover:text-slate-950">
               Terms
             </Link>
-            <Link href="#" className="hover:text-slate-950">
-              Contact
-            </Link>
+            <a
+  href="mailto:vaqogenci@gmail.com?subject=Kontakt%20AutoFlow"
+  className="hover:text-slate-950"
+>
+  Kontakt
+</a>
           </div>
         </div>
       </div>

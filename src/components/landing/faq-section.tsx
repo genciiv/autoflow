@@ -115,9 +115,12 @@ export function FAQSection() {
             Kontakto ekipin tonë dhe do të të ndihmojmë të fillosh me AutoFlow.
           </p>
 
-          <button className="mt-6 rounded-2xl bg-slate-950 px-6 py-3 font-semibold text-white transition hover:bg-slate-800">
-            Kontakto ekipin
-          </button>
+          <a
+  href="mailto:vaqogenci@gmail.com?subject=Interes%20p%C3%ABr%20AutoFlow&body=P%C3%ABrsh%C3%ABndetje%2C%20dua%20m%C3%AB%20shum%C3%AB%20informacion%20p%C3%ABr%20AutoFlow."
+  className="mt-6 inline-flex rounded-2xl bg-slate-950 px-6 py-3 font-semibold text-white transition hover:bg-slate-800"
+>
+  Kontakto ekipin
+</a>
         </div>
       </div>
     </section>
