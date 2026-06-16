@@ -24,6 +24,7 @@ model Business {
   stockMovements StockMovement[]
   serviceRecords ServiceRecord[]
   invoices       Invoice[]
+  payments Payment[]
 }
 
 model User {
@@ -208,4 +209,20 @@ model Invoice {
 
   business      Business      @relation(fields: [businessId], references: [id])
   serviceRecord ServiceRecord @relation(fields: [serviceRecordId], references: [id])
+  payments Payment[]
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  businessId  String
+  invoiceId   String
+  amount      Float
+  method      String
+  status      String   @default("paid")
+  paidAt      DateTime @default(now())
+  note        String?
+  createdAt   DateTime @default(now())
+
+  business Business @relation(fields: [businessId], references: [id])
+  invoice  Invoice  @relation(fields: [invoiceId], references: [id])
 }

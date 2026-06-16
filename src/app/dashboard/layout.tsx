@@ -36,6 +36,10 @@ const navItems = [
     href: "/dashboard/reports",
   },
   {
+  label: "Pagesat",
+  href: "/dashboard/payments",
+},
+  {
     label: "Settings",
     href: "/dashboard/settings",
   },
