@@ -27,6 +27,7 @@ model Business {
   payments Payment[]
   reminders Reminder[]
   appointments Appointment[]
+  auditLogs AuditLog[]
 }
 
 model User {
@@ -44,6 +45,7 @@ model User {
   business Business? @relation(fields: [businessId], references: [id])
   accounts Account[]
   sessions Session[]
+  auditLogs AuditLog[]
 }
 
 model Customer {
@@ -268,4 +270,19 @@ model Appointment {
   business Business @relation(fields: [businessId], references: [id])
   customer Customer @relation(fields: [customerId], references: [id])
   vehicle  Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  businessId String?
+  userId     String?
+  action     String
+  entity     String
+  entityId   String?
+  message    String?
+  createdAt  DateTime @default(now())
+
+  business Business? @relation(fields: [businessId], references: [id])
+  user     User?     @relation(fields: [userId], references: [id])
 }

@@ -9,6 +9,10 @@ const navItems = [
   { label: "Pagesat", href: "/admin/payments" },
   { label: "Planet", href: "/admin/plans" },
   { label: "Raportet", href: "/admin/reports" },
+  {
+  label: "Audit Logs",
+  href: "/admin/audit-logs",
+},
   { label: "Settings", href: "/admin/settings" },
 ];
 
