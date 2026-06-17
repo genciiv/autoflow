@@ -16,10 +16,11 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
+  const email = "vaqogenci@gmail.com";
+  const password = "Mamibabi123?";
+
   const existingAdmin = await prisma.user.findUnique({
-    where: {
-      email: "vaqogenci@gmail.com",
-    },
+    where: { email },
   });
 
   if (existingAdmin) {
@@ -27,18 +28,18 @@ async function main() {
     return;
   }
 
-  const passwordHash = await bcrypt.hash("Mamibabi123?", 10);
+  const passwordHash = await bcrypt.hash(password, 10);
 
   await prisma.user.create({
     data: {
-      name: "Platform Admin",
-      email: "vaqogenci@gmail.com",
+      name: "Genci Vaqo",
+      email,
       password: passwordHash,
       role: "platform_admin",
     },
   });
 
-  console.log("Platform admin created");
+  console.log("Platform admin created:", email);
 }
 
 main()
