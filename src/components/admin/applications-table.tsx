@@ -2,22 +2,15 @@ import {
   approveBusinessApplication,
   rejectBusinessApplication,
 } from "@/features/platform-admin/applications/actions";
+import { db } from "@/lib/db";
 
-type Application = {
-  id: string;
-  businessName: string;
-  ownerName: string;
-  city: string | null;
-  phone: string;
-  email: string;
-  status: string;
-};
+export async function ApplicationsTable() {
+  const applications = await db.businessApplication.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-export function ApplicationsTable({
-  applications,
-}: {
-  applications: Application[];
-}) {
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full">
@@ -35,10 +28,14 @@ export function ApplicationsTable({
         <tbody>
           {applications.map((application) => (
             <tr key={application.id} className="border-b border-slate-100">
-              <td className="px-6 py-5">{application.businessName}</td>
+              <td className="px-6 py-5 font-medium">
+                {application.businessName}
+              </td>
+
               <td className="px-6 py-5">{application.ownerName}</td>
-              <td className="px-6 py-5">{application.city}</td>
+              <td className="px-6 py-5">{application.city || "-"}</td>
               <td className="px-6 py-5">{application.phone}</td>
+
               <td className="px-6 py-5">
                 <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                   {application.status}
@@ -46,19 +43,43 @@ export function ApplicationsTable({
               </td>
 
               <td className="px-6 py-5 text-right">
-                <div className="flex justify-end gap-2">
-                  <form action={approveBusinessApplication.bind(null, application.id)}>
-                    <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
-                      Aprovo
-                    </button>
-                  </form>
+                {application.status === "pending" ? (
+                  <div className="flex justify-end gap-3">
+                    <form action={approveBusinessApplication} className="flex gap-2">
+                      <input
+                        type="hidden"
+                        name="applicationId"
+                        value={application.id}
+                      />
 
-                  <form action={rejectBusinessApplication.bind(null, application.id)}>
-                    <button className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white">
-                      Refuzo
-                    </button>
-                  </form>
-                </div>
+                      <input
+                        name="ownerPassword"
+                        type="text"
+                        required
+                        minLength={8}
+                        placeholder="Fjalëkalimi"
+                        className="w-40 rounded-xl border border-slate-300 px-3 py-2 text-sm"
+                      />
+
+                      <button className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white">
+                        Aprovo
+                      </button>
+                    </form>
+
+                    <form
+                      action={rejectBusinessApplication.bind(
+                        null,
+                        application.id
+                      )}
+                    >
+                      <button className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white">
+                        Refuzo
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <span className="text-sm text-slate-400">Procesuar</span>
+                )}
               </td>
             </tr>
           ))}

@@ -1,32 +1,57 @@
-export default function ApplyPage() {
+import { createBusinessApplicationAction } from "@/features/business-applications/actions";
+
+export default async function ApplyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    success?: string;
+    error?: string;
+  }>;
+}) {
+  const params = await searchParams;
+
+  const success = params.success === "true";
+  const error = params.error;
+
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-20">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
-          <span className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Aplikim biznesi
-          </span>
-
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">
-            Apliko për të përdorur AutoFlow
+          <h1 className="text-4xl font-black text-slate-950">
+            Apliko për AutoFlow
           </h1>
 
           <p className="mt-4 text-slate-600">
-            Plotëso të dhënat e servisit. Pas verifikimit, do të aktivizojmë
-            llogarinë tënde.
+            Plotëso formularin dhe ekipi ynë do ta shqyrtojë aplikimin.
           </p>
         </div>
 
-        <form className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+        {success && (
+          <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-700">
+            Aplikimi u dërgua me sukses. Do të kontaktoheni shumë shpejt.
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-5 text-red-700">
+            Plotëso fushat e detyrueshme.
+          </div>
+        )}
+
+        <form
+          action={createBusinessApplicationAction}
+          className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <label className="text-sm font-medium text-slate-700">
                 Emri i servisit
               </label>
               <input
-                type="text"
-                placeholder="AutoService Pro"
-                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
+                name="businessName"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
+                placeholder="Auto Service Pro"
               />
             </div>
 
@@ -35,9 +60,10 @@ export default function ApplyPage() {
                 Emri i pronarit
               </label>
               <input
-                type="text"
-                placeholder="Genci Vaqo"
-                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
+                name="ownerName"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
+                placeholder="Emër Mbiemër"
               />
             </div>
 
@@ -46,9 +72,10 @@ export default function ApplyPage() {
                 Telefoni
               </label>
               <input
-                type="tel"
+                name="phone"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
                 placeholder="+355 69 ..."
-                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
               />
             </div>
 
@@ -57,9 +84,11 @@ export default function ApplyPage() {
                 Email
               </label>
               <input
+                name="email"
                 type="email"
-                placeholder="info@servisi.al"
-                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
+                placeholder="email@servisi.al"
               />
             </div>
 
@@ -68,9 +97,9 @@ export default function ApplyPage() {
                 Qyteti
               </label>
               <input
-                type="text"
+                name="city"
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
                 placeholder="Fier"
-                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
               />
             </div>
 
@@ -78,37 +107,29 @@ export default function ApplyPage() {
               <label className="text-sm font-medium text-slate-700">
                 Lloji i biznesit
               </label>
-              <select className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900">
-                <option>Servis mekanik</option>
-                <option>Auto-elektrik</option>
-                <option>Vulkanizim</option>
-                <option>Lavazh</option>
-                <option>Servis i përgjithshëm</option>
-              </select>
+              <input
+                name="businessType"
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
+                placeholder="Servis automjetesh"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="text-sm font-medium text-slate-700">
+                Mesazh
+              </label>
+              <textarea
+                name="message"
+                rows={5}
+                className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3"
+                placeholder="Shkruaj disa detaje..."
+              />
             </div>
           </div>
 
-          <div className="mt-6">
-            <label className="text-sm font-medium text-slate-700">
-              Mesazh shtesë
-            </label>
-            <textarea
-              rows={5}
-              placeholder="Na trego pak për servisin tënd..."
-              className="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-slate-900"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="mt-8 w-full rounded-xl bg-slate-950 px-6 py-3 font-semibold text-white hover:bg-slate-800"
-          >
+          <button className="mt-8 w-full rounded-xl bg-slate-950 px-5 py-3 font-semibold text-white">
             Dërgo aplikimin
           </button>
-
-          <p className="mt-4 text-center text-sm text-slate-500">
-            Do të kontaktohesh pas verifikimit të të dhënave.
-          </p>
         </form>
       </div>
     </main>

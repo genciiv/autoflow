@@ -1,41 +1,28 @@
-import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
-import { generateTemporaryPassword } from "@/utils/generate-temporary-password";
+import bcrypt from "bcryptjs";
 
 export async function createBusinessOwnerAccount({
   businessId,
   name,
   email,
+  password,
 }: {
   businessId: string;
   name: string;
   email: string;
+  password: string;
 }) {
-  const existingUser = await db.user.findUnique({
-    where: {
-      email: email.toLowerCase(),
-    },
-  });
-
-  if (existingUser) {
-    throw new Error("Ky email ekziston tashmë.");
-  }
-
-  const temporaryPassword = generateTemporaryPassword();
-  const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+  const passwordHash = await bcrypt.hash(password, 10);
 
   const user = await db.user.create({
     data: {
       businessId,
       name,
       email: email.toLowerCase(),
-      password: hashedPassword,
+      password: passwordHash,
       role: "owner",
     },
   });
 
-  return {
-    user,
-    temporaryPassword,
-  };
+  return user;
 }

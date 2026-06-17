@@ -5,7 +5,18 @@ import { db } from "@/lib/db";
 import { createBusinessOwnerAccount } from "@/services/business-owner.service";
 import { getTrialEndDate } from "@/utils/trial";
 
-export async function approveBusinessApplication(applicationId: string) {
+export async function approveBusinessApplication(formData: FormData) {
+  const applicationId = String(formData.get("applicationId") || "");
+  const ownerPassword = String(formData.get("ownerPassword") || "");
+
+  if (!applicationId) {
+    throw new Error("Aplikimi mungon.");
+  }
+
+  if (!ownerPassword || ownerPassword.length < 8) {
+    throw new Error("Fjalëkalimi duhet të ketë të paktën 8 karaktere.");
+  }
+
   const application = await db.businessApplication.findUnique({
     where: {
       id: applicationId,
@@ -33,10 +44,11 @@ export async function approveBusinessApplication(applicationId: string) {
     },
   });
 
-  const { temporaryPassword } = await createBusinessOwnerAccount({
+  await createBusinessOwnerAccount({
     businessId: business.id,
     name: application.ownerName,
     email: application.email,
+    password: ownerPassword,
   });
 
   await db.businessApplication.update({
@@ -47,8 +59,6 @@ export async function approveBusinessApplication(applicationId: string) {
       status: "approved",
     },
   });
-
-  console.log("Temporary owner password:", temporaryPassword);
 
   revalidatePath("/admin/applications");
   revalidatePath("/admin/businesses");
